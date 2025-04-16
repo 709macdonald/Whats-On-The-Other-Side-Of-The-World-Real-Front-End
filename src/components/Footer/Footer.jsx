@@ -1,5 +1,5 @@
 import React from "react";
-import LocationInfo from "./LocationInfo";
+import LocationInfo from "./LocationINfo";
 import McdonaldsInfo from "./McDonaldsInfo";
 import NavigationButtons from "./NavigationButtons";
 
