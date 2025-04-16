@@ -1,6 +1,6 @@
 import React from "react";
 import LocationInfo from "./LocationInfo";
-import McdonaldsInfo from "./McdonaldsInfo";
+import McdonaldsInfo from "./McDonaldsInfo";
 import NavigationButtons from "./NavigationButtons";
 
 function Footer({
