@@ -1,4 +1,6 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
+const geocodeCache = new Map();
+const suggestionsCache = new Map();
 
 export const geocodeLocation = async (locationText) => {
   try {
