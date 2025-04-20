@@ -1,7 +1,7 @@
-function SearchInputBar({ onSearch, onInputChange, inputValue }) {
+function SearchInputBar({ onSearch, onInputChange, inputValue, onFocus }) {
   const handleChange = (e) => {
     const val = e.target.value;
-    onInputChange?.(val); // 👈 notify parent
+    onInputChange?.(val);
   };
 
   const handleKeyDown = (e) => {
@@ -21,6 +21,7 @@ function SearchInputBar({ onSearch, onInputChange, inputValue }) {
         value={inputValue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onFocus={onFocus}
         placeholder="Search for a location..."
         className="search-input"
         autoComplete="off"
@@ -31,3 +32,5 @@ function SearchInputBar({ onSearch, onInputChange, inputValue }) {
     </div>
   );
 }
+
+export default SearchInputBar;

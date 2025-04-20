@@ -4,10 +4,12 @@ import SuggestionsList from "./SuggestionsList";
 import { geocodeLocation } from "../../services/GeocodingService";
 
 function SearchWrapper({ onPlaceSelected }) {
-  const [searchTerm, setSearchTerm] = useState(""); // 👈 updates on every keystroke
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSearch = async (value) => {
-    setSearchTerm(value); // ⬅️ still update this so the list can fetch suggestions
+    setSearchTerm(value);
+    setShowSuggestions(false);
 
     if (value.trim() === "") return;
 
@@ -17,8 +19,15 @@ function SearchWrapper({ onPlaceSelected }) {
     }
   };
 
+  const handleInputChange = (val) => {
+    setSearchTerm(val);
+    setShowSuggestions(true); // start showing suggestions on typing
+  };
+
   const handleSuggestionSelect = (suggestion) => {
-    setSearchTerm(suggestion.text); // update input text
+    setSearchTerm(suggestion.text);
+    setShowSuggestions(false);
+
     if (onPlaceSelected) {
       onPlaceSelected({ lat: suggestion.lat, lng: suggestion.lng });
     }
@@ -28,13 +37,17 @@ function SearchWrapper({ onPlaceSelected }) {
     <div style={{ position: "relative", width: "100%", maxWidth: "500px" }}>
       <SearchInputBar
         onSearch={handleSearch}
-        onInputChange={(val) => setSearchTerm(val)} // 👈 track keystrokes
-        inputValue={searchTerm} // 👈 controlled input
+        onInputChange={handleInputChange}
+        inputValue={searchTerm}
+        onFocus={() => setShowSuggestions(true)}
       />
-      <SuggestionsList
-        searchTerm={searchTerm}
-        onSelect={handleSuggestionSelect}
-      />
+      {showSuggestions && (
+        <SuggestionsList
+          searchTerm={searchTerm}
+          onSelect={handleSuggestionSelect}
+          onClose={() => setShowSuggestions(false)}
+        />
+      )}
     </div>
   );
 }
