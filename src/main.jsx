@@ -6,7 +6,7 @@ import "./styles/Footer.css";
 import "./styles/MainScreen.css";
 import "./styles/Search.css";
 import "./styles/SuggestionsList.css";
-import "./styles/Popup.css";
+import "./styles/PopUp.css";
 import "./styles/Buttons.css";
 import "./styles/Map.css";
 import App from "./App.jsx";
