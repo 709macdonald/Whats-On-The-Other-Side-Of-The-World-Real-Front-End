@@ -23,6 +23,17 @@ function App() {
 
   const hasFoundNearestRef = useRef(false);
 
+  // Add this useEffect to load McDonald's data when component mounts
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await loadMcDonaldsData();
+      console.log("Loaded McDonald's data:", data.length, "locations");
+      setMcDonaldsData(data);
+    };
+
+    loadData();
+  }, []);
+
   useEffect(() => {
     if (
       locationDetails.antipode &&
