@@ -34,7 +34,7 @@ function SearchWrapper({ onPlaceSelected }) {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", maxWidth: "500px" }}>
+    <div className="Search-Wrapper">
       <SearchInputBar
         onSearch={handleSearch}
         onInputChange={handleInputChange}

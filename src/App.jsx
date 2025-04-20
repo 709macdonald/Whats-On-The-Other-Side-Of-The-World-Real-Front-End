@@ -3,15 +3,12 @@ import Header from "./components/Header/Header";
 import SearchWrapper from "./components/SearchBar/SearchWrapper";
 import LeafletMapComponent from "./components/Map/LeafletMapComponent";
 import Footer from "./components/Footer/Footer";
-import WelcomeScreen from "./components/WelcomeScreen/WelcomeScreen";
 import {
   findNearestMcDonalds,
   loadMcDonaldsData,
 } from "./services/McDonaldsService";
-import "./index.css";
 
 function App() {
-  const [appStarted, setAppStarted] = useState(false);
   const [searchLocation, setSearchLocation] = useState(null);
   const [showSearch, setShowSearch] = useState(true);
   const [viewTarget, setViewTarget] = useState(null);
@@ -25,17 +22,6 @@ function App() {
   });
 
   const hasFoundNearestRef = useRef(false);
-
-  useEffect(() => {
-    if (!appStarted) return;
-
-    const fetchMcDonaldsData = async () => {
-      const data = await loadMcDonaldsData();
-      setMcDonaldsData(data);
-    };
-
-    fetchMcDonaldsData();
-  }, [appStarted]);
 
   useEffect(() => {
     if (
@@ -95,14 +81,6 @@ function App() {
       antipodeCountry: "",
     });
   };
-
-  const handleStartApp = () => {
-    setAppStarted(true);
-  };
-
-  if (!appStarted) {
-    return <WelcomeScreen onStart={handleStartApp} />;
-  }
 
   return (
     <>

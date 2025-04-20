@@ -1,0 +1,66 @@
+/* Buttons.css */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 800px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn-blue {
+  background-color: #4285f4;
+}
+
+.btn-blue:hover {
+  background-color: #3367d6;
+}
+
+.btn-green {
+  background-color: #4caf50;
+}
+
+.btn-green:hover {
+  background-color: #3d8b40;
+}
+
+.btn-red {
+  background-color: #ff5252;
+}
+
+.btn-red:hover {
+  background-color: #e04545;
+}
+
+.btn-yellow {
+  background-color: #ffbc0d;
+  color: #da291c;
+  font-weight: bold;
+}
+
+.btn-yellow:hover {
+  background-color: #f5aa00;
+}

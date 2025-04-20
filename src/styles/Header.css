@@ -1,0 +1,97 @@
+/* Header.css */
+.header {
+  background: rgb(255, 252, 248);
+  color: #333;
+  padding: 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 5;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #333;
+  white-space: nowrap;
+}
+
+.header p {
+  margin: 0.5rem 0 0 0;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.header-globe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.globe-icon {
+  width: 80px;
+  height: 80px;
+  color: #4285f4;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@media (max-width: 1000px) {
+  .header h1 {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-text {
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+    white-space: normal;
+  }
+
+  .header p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .globe-icon {
+    width: 60px;
+    height: 60px;
+  }
+}

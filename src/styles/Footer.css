@@ -1,0 +1,55 @@
+/* Footer.css */
+.footer {
+  flex-shrink: 0;
+  background-color: rgb(255, 252, 248);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid #eaeaea;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 5;
+}
+
+.coordinates-display {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.location-box {
+  background-color: white;
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  min-width: 45%;
+}
+
+.location-title {
+  margin: 0 0 5px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.location-coords {
+  margin: 0;
+  color: #555;
+}
+
+.mcdonalds-info {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #ffbc0d;
+  border-radius: 8px;
+  color: #da291c;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
