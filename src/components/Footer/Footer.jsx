@@ -1,6 +1,4 @@
 import React from "react";
-import LocationInfo from "./LocationINfo";
-import McdonaldsInfo from "./McDonaldsInfo";
 import NavigationButtons from "./NavigationButtons";
 
 function Footer({
@@ -9,28 +7,9 @@ function Footer({
   onViewOriginal,
   onViewAntipode,
   onViewMcDonalds,
-  originalLocation = null,
-  antipodeLocation = null,
-  nearestCountryToOriginal = "",
-  nearestCountryToAntipode = "",
-  nearestMcDonalds = null,
-  viewTarget = null,
 }) {
   return (
     <div className="footer">
-      {searchPerformed && originalLocation && antipodeLocation && (
-        <LocationInfo
-          originalLocation={originalLocation}
-          antipodeLocation={antipodeLocation}
-          nearestCountryToOriginal={nearestCountryToOriginal}
-          nearestCountryToAntipode={nearestCountryToAntipode}
-        />
-      )}
-
-      {searchPerformed && nearestMcDonalds && viewTarget === "mcdonalds" && (
-        <McdonaldsInfo nearestMcDonalds={nearestMcDonalds} />
-      )}
-
       <NavigationButtons
         searchPerformed={searchPerformed}
         onReset={onReset}
