@@ -13,6 +13,10 @@
   border: none;
 }
 
+.search-container {
+  position: relative;
+}
+
 /* Search error message */
 .search-error {
   color: #d32f2f;

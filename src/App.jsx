@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "./components/Header/Header";
-import OpenSearchBar from "./components/SearchBar/OpenSearchBar";
+import SearchWrapper from "./components/SearchBar/SearchWrapper";
 import LeafletMapComponent from "./components/Map/LeafletMapComponent";
 import Footer from "./components/Footer/Footer";
 import WelcomeScreen from "./components/WelcomeScreen/WelcomeScreen";
@@ -108,7 +108,7 @@ function App() {
     <>
       <Header />
       <div className="mainScreen">
-        {showSearch && <OpenSearchBar onPlaceSelected={handlePlaceSelected} />}
+        {showSearch && <SearchWrapper onPlaceSelected={handlePlaceSelected} />}
         <LeafletMapComponent
           center={searchLocation}
           viewTarget={viewTarget}
