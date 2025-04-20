@@ -1,4 +1,18 @@
-/* Search.css */
+.search-wrapper-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 100%;
+  max-width: 500px;
+}
+
+.Search-Wrapper {
+  position: relative; /* This remains for the suggestions dropdown */
+  width: 100%;
+}
+
 .search-container {
   display: flex;
   gap: 10px;

@@ -10,14 +10,25 @@ function SuggestionsList({ searchTerm, onSelect, onClose }) {
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
+    console.log(
+      "SearchTerm changed:",
+      searchTerm,
+      "length:",
+      searchTerm.length
+    );
+
     if (searchTerm.length < 3) {
+      console.log("Search term too short, clearing suggestions");
       setSuggestions([]);
       return;
     }
 
+    console.log("Fetching suggestions for:", searchTerm);
+
     debounceRef.current = setTimeout(async () => {
       try {
         const results = await getSuggestions(searchTerm);
+        console.log("Suggestions received:", results);
         setSuggestions(results);
       } catch (err) {
         console.error("Error getting suggestions:", err);
@@ -31,6 +42,7 @@ function SuggestionsList({ searchTerm, onSelect, onClose }) {
         suggestionListRef.current &&
         !suggestionListRef.current.contains(e.target)
       ) {
+        console.log("Click outside suggestions list, closing");
         onClose?.();
       }
     };
@@ -48,7 +60,15 @@ function SuggestionsList({ searchTerm, onSelect, onClose }) {
     }
   }, [selectedIndex]);
 
-  if (suggestions.length === 0) return null;
+  console.log(
+    "Rendering SuggestionsList, suggestions count:",
+    suggestions.length
+  );
+
+  if (suggestions.length === 0) {
+    console.log("No suggestions to show, returning null");
+    return null;
+  }
 
   return (
     <ul ref={suggestionListRef} className="suggestions-list">

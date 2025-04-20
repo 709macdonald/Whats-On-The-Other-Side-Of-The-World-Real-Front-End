@@ -21,7 +21,9 @@ function SearchWrapper({ onPlaceSelected }) {
 
   const handleInputChange = (val) => {
     setSearchTerm(val);
-    setShowSuggestions(true); // start showing suggestions on typing
+    if (val.trim().length >= 2) {
+      setShowSuggestions(true);
+    }
   };
 
   const handleSuggestionSelect = (suggestion) => {
@@ -34,20 +36,24 @@ function SearchWrapper({ onPlaceSelected }) {
   };
 
   return (
-    <div className="Search-Wrapper">
-      <SearchInputBar
-        onSearch={handleSearch}
-        onInputChange={handleInputChange}
-        inputValue={searchTerm}
-        onFocus={() => setShowSuggestions(true)}
-      />
-      {showSuggestions && (
-        <SuggestionsList
-          searchTerm={searchTerm}
-          onSelect={handleSuggestionSelect}
-          onClose={() => setShowSuggestions(false)}
+    <div className="search-wrapper-container">
+      <div className="Search-Wrapper">
+        <SearchInputBar
+          onSearch={handleSearch}
+          onInputChange={handleInputChange}
+          inputValue={searchTerm}
+          onFocus={() => setShowSuggestions(true)}
         />
-      )}
+        {showSuggestions ? (
+          <SuggestionsList
+            searchTerm={searchTerm}
+            onSelect={handleSuggestionSelect}
+            onClose={() => setShowSuggestions(false)}
+          />
+        ) : (
+          <div style={{ display: "none" }}>Suggestions hidden</div>
+        )}
+      </div>
     </div>
   );
 }
