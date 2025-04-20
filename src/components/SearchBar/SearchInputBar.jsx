@@ -1,11 +1,7 @@
-import React, { useState, useRef } from "react";
-
-function SearchInputBar({ onSearch }) {
-  const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef(null);
-
+function SearchInputBar({ onSearch, onInputChange, inputValue }) {
   const handleChange = (e) => {
-    setInputValue(e.target.value);
+    const val = e.target.value;
+    onInputChange?.(val); // 👈 notify parent
   };
 
   const handleKeyDown = (e) => {
@@ -21,7 +17,6 @@ function SearchInputBar({ onSearch }) {
   return (
     <div className="search-container">
       <input
-        ref={inputRef}
         type="text"
         value={inputValue}
         onChange={handleChange}
@@ -36,5 +31,3 @@ function SearchInputBar({ onSearch }) {
     </div>
   );
 }
-
-export default SearchInputBar;

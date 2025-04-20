@@ -4,10 +4,10 @@ import SuggestionsList from "./SuggestionsList";
 import { geocodeLocation } from "../../services/GeocodingService";
 
 function SearchWrapper({ onPlaceSelected }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // 👈 updates on every keystroke
 
   const handleSearch = async (value) => {
-    setSearchTerm(value);
+    setSearchTerm(value); // ⬅️ still update this so the list can fetch suggestions
 
     if (value.trim() === "") return;
 
@@ -18,15 +18,19 @@ function SearchWrapper({ onPlaceSelected }) {
   };
 
   const handleSuggestionSelect = (suggestion) => {
-    setSearchTerm(suggestion.text);
+    setSearchTerm(suggestion.text); // update input text
     if (onPlaceSelected) {
       onPlaceSelected({ lat: suggestion.lat, lng: suggestion.lng });
     }
   };
 
   return (
-    <div>
-      <SearchInputBar onSearch={handleSearch} />
+    <div style={{ position: "relative", width: "100%", maxWidth: "500px" }}>
+      <SearchInputBar
+        onSearch={handleSearch}
+        onInputChange={(val) => setSearchTerm(val)} // 👈 track keystrokes
+        inputValue={searchTerm} // 👈 controlled input
+      />
       <SuggestionsList
         searchTerm={searchTerm}
         onSelect={handleSuggestionSelect}
