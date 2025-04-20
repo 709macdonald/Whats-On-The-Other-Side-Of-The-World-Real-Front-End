@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback, memo } from "react";
 import {
   geocodeLocation,
   getSuggestions,
@@ -16,35 +16,43 @@ function OpenSearchBar({ onPlaceSelected }) {
   const inputRef = useRef(null);
   const debounceTimerRef = useRef(null);
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-    setError("");
-
-    setSelectedIndex(-1);
-
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
+  // Memoize the getSuggestions function call to prevent unnecessary re-renders
+  const fetchSuggestions = useCallback(async (value) => {
     if (value.length < 3) {
       setSuggestions([]);
       setShowSuggestions(false);
       return;
     }
 
-    debounceTimerRef.current = setTimeout(async () => {
-      try {
-        setLoading(true);
-        const results = await getSuggestions(value);
-        setSuggestions(results);
-        setShowSuggestions(results.length > 0);
-      } catch (err) {
-        console.error("Error getting suggestions:", err);
-      } finally {
-        setLoading(false);
-      }
-    }, 300);
+    try {
+      setLoading(true);
+      const results = await getSuggestions(value);
+      setSuggestions(results);
+      setShowSuggestions(results.length > 0);
+    } catch (err) {
+      console.error("Error getting suggestions:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+    setError("");
+    setSelectedIndex(-1);
+
+    // Clear any existing debounce timer
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    // For immediate feedback, we can fetch suggestions right away
+    // A small debounce (50ms) can still help prevent too many API calls
+    // but will feel almost instant to the user
+    debounceTimerRef.current = setTimeout(() => {
+      fetchSuggestions(value);
+    }, 50); // Reduced from 300ms to 50ms for faster response
   };
 
   const handleSuggestionClick = (suggestion) => {
@@ -56,6 +64,11 @@ function OpenSearchBar({ onPlaceSelected }) {
         lat: suggestion.lat,
         lng: suggestion.lng,
       });
+    }
+
+    // Return focus to input after suggestion is selected
+    if (inputRef.current) {
+      inputRef.current.focus();
     }
   };
 
@@ -89,6 +102,10 @@ function OpenSearchBar({ onPlaceSelected }) {
       setError("Error searching for location. Please try again.");
     } finally {
       setLoading(false);
+      // Return focus to input after search
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
   };
 
@@ -120,6 +137,19 @@ function OpenSearchBar({ onPlaceSelected }) {
     }
   };
 
+  // Use this effect to preserve cursor position when input value changes
+  useEffect(() => {
+    if (inputRef.current) {
+      const cursorPosition = inputRef.current.selectionStart;
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.selectionStart = cursorPosition;
+          inputRef.current.selectionEnd = cursorPosition;
+        }
+      }, 0);
+    }
+  }, [inputValue]);
+
   useEffect(() => {
     if (selectedIndex >= 0 && suggestionListRef.current) {
       const selectedElement = suggestionListRef.current.children[selectedIndex];
@@ -150,6 +180,33 @@ function OpenSearchBar({ onPlaceSelected }) {
     };
   }, []);
 
+  // Memoize the suggestion click handler
+  const memoizedHandleSuggestionClick = useCallback((suggestion) => {
+    handleSuggestionClick(suggestion);
+  }, []);
+
+  // Create a memoized suggestions list component
+  const SuggestionsList = memo(
+    ({ suggestions, selectedIndex, onSuggestionClick }) => {
+      return (
+        <ul ref={suggestionListRef} className="suggestions-list">
+          {suggestions.map((suggestion, index) => (
+            <li
+              key={index}
+              onClick={() => onSuggestionClick(suggestion)}
+              className={`suggestion-item ${
+                index === selectedIndex ? "selected" : ""
+              }`}
+              onMouseEnter={() => setSelectedIndex(index)}
+            >
+              {suggestion.text}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  );
+
   return (
     <div className="search-container">
       <input
@@ -177,20 +234,11 @@ function OpenSearchBar({ onPlaceSelected }) {
       </button>
 
       {showSuggestions && suggestions.length > 0 && (
-        <ul ref={suggestionListRef} className="suggestions-list">
-          {suggestions.map((suggestion, index) => (
-            <li
-              key={index}
-              onClick={() => handleSuggestionClick(suggestion)}
-              className={`suggestion-item ${
-                index === selectedIndex ? "selected" : ""
-              }`}
-              onMouseEnter={() => setSelectedIndex(index)}
-            >
-              {suggestion.text}
-            </li>
-          ))}
-        </ul>
+        <SuggestionsList
+          suggestions={suggestions}
+          selectedIndex={selectedIndex}
+          onSuggestionClick={memoizedHandleSuggestionClick}
+        />
       )}
 
       {error && <div className="search-error">{error}</div>}
