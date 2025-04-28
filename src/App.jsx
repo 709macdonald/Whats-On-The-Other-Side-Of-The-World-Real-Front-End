@@ -187,6 +187,7 @@ function App() {
             nearestMcDonalds={nearestMcDonalds}
             viewTarget={viewTarget}
             searchCount={searchCount}
+            handlePurchase={handlePurchase}
           />
         </>
       )}

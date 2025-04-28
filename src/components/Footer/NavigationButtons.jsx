@@ -6,7 +6,8 @@ function NavigationButtons({
   onViewOriginal,
   onViewAntipode,
   onViewMcDonalds,
-  searchCount, // ⬅️ Receive searchCount
+  searchCount,
+  handlePurchase, // ⬅️ Add this
 }) {
   if (!searchPerformed) {
     return null;
@@ -22,9 +23,15 @@ function NavigationButtons({
         )}
       </div>
 
-      <button className="btn btn-blue" onClick={onReset}>
-        Search Again
-      </button>
+      {searchCount > 0 ? (
+        <button className="btn btn-blue" onClick={onReset}>
+          Search Again
+        </button>
+      ) : (
+        <button className="btn btn-purple" onClick={() => handlePurchase(5)}>
+          Purchase 5 Searches ($0.99)
+        </button>
+      )}
 
       <button className="btn btn-green" onClick={onViewOriginal}>
         My Location
@@ -35,7 +42,7 @@ function NavigationButtons({
       </button>
 
       <button className="btn btn-yellow" onClick={onViewMcDonalds}>
-        Nearest McDonalds
+        Nearest McDonald's
       </button>
     </div>
   );
