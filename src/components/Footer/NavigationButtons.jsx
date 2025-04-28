@@ -6,6 +6,7 @@ function NavigationButtons({
   onViewOriginal,
   onViewAntipode,
   onViewMcDonalds,
+  searchCount, // ⬅️ Receive searchCount
 }) {
   if (!searchPerformed) {
     return null;
@@ -13,6 +14,14 @@ function NavigationButtons({
 
   return (
     <div className="button-container">
+      <div style={{ textAlign: "center", marginBottom: "10px" }}>
+        {searchCount > 0 ? (
+          <p>You have {searchCount} searches left.</p>
+        ) : (
+          <p>You have no searches left. Please purchase more to continue!</p>
+        )}
+      </div>
+
       <button className="btn btn-blue" onClick={onReset}>
         Search Again
       </button>

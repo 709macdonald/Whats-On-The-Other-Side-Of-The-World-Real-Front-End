@@ -7,6 +7,7 @@ function Footer({
   onViewOriginal,
   onViewAntipode,
   onViewMcDonalds,
+  searchCount,
 }) {
   return (
     <div className="footer">
@@ -16,6 +17,7 @@ function Footer({
         onViewOriginal={onViewOriginal}
         onViewAntipode={onViewAntipode}
         onViewMcDonalds={onViewMcDonalds}
+        searchCount={searchCount}
       />
     </div>
   );

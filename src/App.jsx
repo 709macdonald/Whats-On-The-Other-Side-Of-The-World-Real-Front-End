@@ -20,10 +20,31 @@ function App() {
     originalCountry: "",
     antipodeCountry: "",
   });
+  const [searchCount, setSearchCount] = useState(() => {
+    const stored = localStorage.getItem("searchCount");
+    return stored ? parseInt(stored, 10) : 3; // ⬅️ Start at 3 searches
+  });
+
+  const [isLocked, setIsLocked] = useState(() => {
+    const stored = localStorage.getItem("isLocked");
+    return stored === "true" ? true : false;
+  });
 
   const hasFoundNearestRef = useRef(false);
+  const [page, setPage] = useState("main");
 
-  // Add this useEffect to load McDonald's data when component mounts
+  useEffect(() => {
+    if (window.location.pathname === "/payment-success") {
+      setPage("success");
+
+      const params = new URLSearchParams(window.location.search);
+      const amount = parseInt(params.get("amount"), 10) || 5; // Default to 5 if missing
+
+      setSearchCount((prev) => prev + amount); // ⬅️ Add correct amount
+      setIsLocked(false); // ⬅️ Unlock user
+    }
+  }, []);
+
   useEffect(() => {
     const loadData = async () => {
       const data = await loadMcDonaldsData();
@@ -33,6 +54,11 @@ function App() {
 
     loadData();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("searchCount", searchCount.toString());
+    localStorage.setItem("isLocked", isLocked.toString());
+  }, [searchCount, isLocked]);
 
   useEffect(() => {
     if (
@@ -53,6 +79,14 @@ function App() {
       }
     }
   }, [locationDetails.antipode, mcDonaldsData]);
+
+  const handlePurchase = (searchesPurchased) => {
+    if (searchesPurchased === 5) {
+      window.location.href = "https://buy.stripe.com/test_7sI3fbeh45DyesMfYY";
+    } else if (searchesPurchased === 15) {
+      window.location.href = "https://buy.stripe.com/test_3cs02Z0qed6070kbIJ";
+    }
+  };
 
   const handlePlaceSelected = (location) => {
     setSearchLocation(location);
@@ -80,6 +114,21 @@ function App() {
   };
 
   const handleReset = () => {
+    if (isLocked) {
+      alert(
+        "You've reached your free search limit. Please purchase more searches to continue!"
+      );
+      return;
+    }
+
+    setSearchCount((prev) => {
+      const newCount = prev - 1; // ⬅️ Subtract 1 search
+      if (newCount <= 0) {
+        setIsLocked(true);
+      }
+      return newCount;
+    });
+
     setSearchLocation(null);
     setShowSearch(true);
     setViewTarget(null);
@@ -96,28 +145,51 @@ function App() {
   return (
     <>
       <Header />
-      <div className="mainScreen">
-        {showSearch && <SearchWrapper onPlaceSelected={handlePlaceSelected} />}
-        <LeafletMapComponent
-          center={searchLocation}
-          viewTarget={viewTarget}
-          onLocationDetails={handleLocationDetails}
-          nearestMcDonalds={nearestMcDonalds}
-        />
-      </div>
-      <Footer
-        onReset={handleReset}
-        onViewOriginal={handleViewOriginal}
-        onViewAntipode={handleViewAntipode}
-        onViewMcDonalds={handleViewMcDonalds}
-        searchPerformed={!showSearch && searchLocation !== null}
-        originalLocation={locationDetails.original}
-        antipodeLocation={locationDetails.antipode}
-        nearestCountryToOriginal={locationDetails.originalCountry}
-        nearestCountryToAntipode={locationDetails.antipodeCountry}
-        nearestMcDonalds={nearestMcDonalds}
-        viewTarget={viewTarget}
-      />
+      {page === "success" ? (
+        <div className="success-screen">
+          <h2>🎉 Thank you for your purchase!</h2>
+          <p>You've unlocked more searches. Enjoy exploring the world!</p>
+          <button onClick={() => (window.location.href = "/")}>
+            Go Back Home
+          </button>
+        </div>
+      ) : page === "cancelled" ? (
+        <div className="cancelled-screen">
+          <h2>❌ Payment Cancelled</h2>
+          <p>No worries! You can try again when you're ready.</p>
+          <button onClick={() => (window.location.href = "/")}>
+            Go Back Home
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="mainScreen">
+            {showSearch && (
+              <SearchWrapper onPlaceSelected={handlePlaceSelected} />
+            )}
+            <LeafletMapComponent
+              center={searchLocation}
+              viewTarget={viewTarget}
+              onLocationDetails={handleLocationDetails}
+              nearestMcDonalds={nearestMcDonalds}
+            />
+          </div>
+          <Footer
+            onReset={handleReset}
+            onViewOriginal={handleViewOriginal}
+            onViewAntipode={handleViewAntipode}
+            onViewMcDonalds={handleViewMcDonalds}
+            searchPerformed={!showSearch && searchLocation !== null}
+            originalLocation={locationDetails.original}
+            antipodeLocation={locationDetails.antipode}
+            nearestCountryToOriginal={locationDetails.originalCountry}
+            nearestCountryToAntipode={locationDetails.antipodeCountry}
+            nearestMcDonalds={nearestMcDonalds}
+            viewTarget={viewTarget}
+            searchCount={searchCount}
+          />
+        </>
+      )}
     </>
   );
 }
