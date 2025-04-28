@@ -7,30 +7,20 @@ function NavigationButtons({
   onViewAntipode,
   onViewMcDonalds,
   searchCount,
-  handlePurchase,
 }) {
   if (!searchPerformed) {
     return null;
   }
 
-  const adjustedSearchCount = searchCount - 1; // ⬅️ Corrected display!
+  const adjustedSearchCount = searchCount - 1;
 
   return (
     <div className="button-container">
-      {searchCount > 0 ? (
+      {searchCount > 0 && (
         <button className="btn btn-blue" onClick={onReset}>
           Search Again ({adjustedSearchCount >= 0 ? adjustedSearchCount : 0}{" "}
           Left)
         </button>
-      ) : (
-        <>
-          <button className="btn btn-purple" onClick={() => handlePurchase(5)}>
-            Purchase 5 Searches ($0.99)
-          </button>
-          <button className="btn btn-orange" onClick={() => handlePurchase(15)}>
-            Purchase 15 Searches ($2.49)
-          </button>
-        </>
       )}
 
       <button className="btn btn-green" onClick={onViewOriginal}>

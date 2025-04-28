@@ -31,7 +31,6 @@ function App() {
   });
 
   const hasFoundNearestRef = useRef(false);
-  const [page, setPage] = useState("main");
 
   useEffect(() => {
     if (window.location.pathname === "/payment-success") {
@@ -152,52 +151,49 @@ function App() {
   return (
     <>
       <Header />
-      {page === "success" ? (
-        <div className="success-screen">
-          <h2>🎉 Thank you for your purchase!</h2>
-          <p>You've unlocked more searches. Enjoy exploring the world!</p>
-          <button onClick={() => (window.location.href = "/")}>
-            Go Back Home
-          </button>
-        </div>
-      ) : page === "cancelled" ? (
-        <div className="cancelled-screen">
-          <h2>❌ Payment Cancelled</h2>
-          <p>No worries! You can try again when you're ready.</p>
-          <button onClick={() => (window.location.href = "/")}>
-            Go Back Home
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="mainScreen">
-            {showSearch && (
-              <SearchWrapper onPlaceSelected={handlePlaceSelected} />
-            )}
-            <LeafletMapComponent
-              center={searchLocation}
-              viewTarget={viewTarget}
-              onLocationDetails={handleLocationDetails}
-              nearestMcDonalds={nearestMcDonalds}
-            />
+      <div className="mainScreen">
+        {searchCount > 0 ? (
+          <SearchWrapper onPlaceSelected={handlePlaceSelected} />
+        ) : (
+          <div className="purchase-buttons">
+            <h2 className="out-of-searches-msg">You're out of searches!</h2>
+            <p>Please purchase more to continue exploring.</p>
+            <button
+              className="btn btn-purple"
+              onClick={() => handlePurchase(5)}
+            >
+              Purchase 5 Searches ($0.99)
+            </button>
+            <button
+              className="btn btn-orange"
+              onClick={() => handlePurchase(15)}
+            >
+              Purchase 15 Searches ($2.49)
+            </button>
           </div>
-          <Footer
-            onReset={handleReset}
-            onViewOriginal={handleViewOriginal}
-            onViewAntipode={handleViewAntipode}
-            onViewMcDonalds={handleViewMcDonalds}
-            searchPerformed={!showSearch && searchLocation !== null}
-            originalLocation={locationDetails.original}
-            antipodeLocation={locationDetails.antipode}
-            nearestCountryToOriginal={locationDetails.originalCountry}
-            nearestCountryToAntipode={locationDetails.antipodeCountry}
-            nearestMcDonalds={nearestMcDonalds}
-            viewTarget={viewTarget}
-            searchCount={searchCount}
-            handlePurchase={handlePurchase}
-          />
-        </>
-      )}
+        )}
+
+        <LeafletMapComponent
+          center={searchLocation}
+          viewTarget={viewTarget}
+          onLocationDetails={handleLocationDetails}
+          nearestMcDonalds={nearestMcDonalds}
+        />
+      </div>
+      <Footer
+        onReset={handleReset}
+        onViewOriginal={handleViewOriginal}
+        onViewAntipode={handleViewAntipode}
+        onViewMcDonalds={handleViewMcDonalds}
+        searchPerformed={!showSearch && searchLocation !== null}
+        originalLocation={locationDetails.original}
+        antipodeLocation={locationDetails.antipode}
+        nearestCountryToOriginal={locationDetails.originalCountry}
+        nearestCountryToAntipode={locationDetails.antipodeCountry}
+        nearestMcDonalds={nearestMcDonalds}
+        viewTarget={viewTarget}
+        searchCount={searchCount}
+      />
     </>
   );
 }
