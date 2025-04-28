@@ -89,6 +89,13 @@ function App() {
   };
 
   const handlePlaceSelected = (location) => {
+    if (isLocked || searchCount <= 0) {
+      alert(
+        "You've reached your free search limit. Please purchase more searches to continue!"
+      );
+      return;
+    }
+
     setSearchLocation(location);
     setShowSearch(false);
     setViewTarget("antipode");

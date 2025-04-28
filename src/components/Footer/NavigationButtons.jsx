@@ -7,7 +7,7 @@ function NavigationButtons({
   onViewAntipode,
   onViewMcDonalds,
   searchCount,
-  handlePurchase, // ⬅️ Add this
+  handlePurchase,
 }) {
   if (!searchPerformed) {
     return null;
@@ -15,22 +15,19 @@ function NavigationButtons({
 
   return (
     <div className="button-container">
-      <div style={{ textAlign: "center", marginBottom: "10px" }}>
-        {searchCount > 0 ? (
-          <p>You have {searchCount} searches left.</p>
-        ) : (
-          <p>You have no searches left. Please purchase more to continue!</p>
-        )}
-      </div>
-
       {searchCount > 0 ? (
         <button className="btn btn-blue" onClick={onReset}>
-          Search Again
+          Search Again ({searchCount} Left)
         </button>
       ) : (
-        <button className="btn btn-purple" onClick={() => handlePurchase(5)}>
-          Purchase 5 Searches ($0.99)
-        </button>
+        <>
+          <button className="btn btn-purple" onClick={() => handlePurchase(5)}>
+            Purchase 5 Searches ($0.99)
+          </button>
+          <button className="btn btn-orange" onClick={() => handlePurchase(15)}>
+            Purchase 15 Searches ($2.49)
+          </button>
+        </>
       )}
 
       <button className="btn btn-green" onClick={onViewOriginal}>
