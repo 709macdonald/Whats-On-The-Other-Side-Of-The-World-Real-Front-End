@@ -149,26 +149,11 @@ function App() {
     <>
       <Header />
       <div className="mainScreen">
-        {searchCount > 0 ? (
-          <SearchWrapper onPlaceSelected={handlePlaceSelected} />
-        ) : (
-          <div className="purchase-buttons">
-            <h2 className="out-of-searches-msg">You're out of searches!</h2>
-            <p>Please purchase more to continue exploring.</p>
-            <button
-              className="btn btn-purple"
-              onClick={() => handlePurchase(5)}
-            >
-              Purchase 5 Searches ($0.99)
-            </button>
-            <button
-              className="btn btn-orange"
-              onClick={() => handlePurchase(15)}
-            >
-              Purchase 15 Searches ($2.49)
-            </button>
-          </div>
-        )}
+        <SearchWrapper
+          onPlaceSelected={handlePlaceSelected}
+          searchCount={searchCount}
+          handlePurchase={handlePurchase}
+        />
 
         <LeafletMapComponent
           center={searchLocation}
