@@ -33,11 +33,14 @@ function App() {
   const hasFoundNearestRef = useRef(false);
 
   useEffect(() => {
-    if (window.location.pathname === "/payment-success") {
-      const params = new URLSearchParams(window.location.search);
-      const amount = parseInt(params.get("amount"), 10) || 5;
+    const params = new URLSearchParams(window.location.search);
+    const amount = parseInt(params.get("amount"), 10);
+
+    if (amount) {
       setSearchCount((prev) => prev + amount);
       setIsLocked(false);
+      // optional nice touch: clean the URL after handling
+      window.history.replaceState({}, document.title, "/");
     }
   }, []);
 
