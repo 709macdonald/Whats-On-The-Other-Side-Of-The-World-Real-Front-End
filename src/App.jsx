@@ -34,13 +34,10 @@ function App() {
 
   useEffect(() => {
     if (window.location.pathname === "/payment-success") {
-      setPage("success");
-
       const params = new URLSearchParams(window.location.search);
-      const amount = parseInt(params.get("amount"), 10) || 5; // Default to 5 if missing
-
-      setSearchCount((prev) => prev + amount); // ⬅️ Add correct amount
-      setIsLocked(false); // ⬅️ Unlock user
+      const amount = parseInt(params.get("amount"), 10) || 5;
+      setSearchCount((prev) => prev + amount);
+      setIsLocked(false);
     }
   }, []);
 
