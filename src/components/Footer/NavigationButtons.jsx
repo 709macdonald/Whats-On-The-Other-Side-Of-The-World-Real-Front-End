@@ -13,11 +13,14 @@ function NavigationButtons({
     return null;
   }
 
+  const adjustedSearchCount = searchCount - 1; // ⬅️ Corrected display!
+
   return (
     <div className="button-container">
       {searchCount > 0 ? (
         <button className="btn btn-blue" onClick={onReset}>
-          Search Again ({searchCount} Left)
+          Search Again ({adjustedSearchCount >= 0 ? adjustedSearchCount : 0}{" "}
+          Left)
         </button>
       ) : (
         <>
