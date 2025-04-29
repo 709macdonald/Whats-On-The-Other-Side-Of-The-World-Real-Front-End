@@ -29,6 +29,7 @@ function App() {
     const stored = localStorage.getItem("isLocked");
     return stored === "true" ? true : false;
   });
+  const [isAppReady, setIsAppReady] = useState(false);
 
   const hasFoundNearestRef = useRef(false);
 
@@ -49,6 +50,16 @@ function App() {
       const data = await loadMcDonaldsData();
       console.log("Loaded McDonald's data:", data.length, "locations");
       setMcDonaldsData(data);
+
+      // 🔥 WARM-UP SERVER
+      try {
+        await getSuggestions("test"); // Send fake search
+        console.log("Server warmed up");
+      } catch (error) {
+        console.error("Server warm-up failed:", error);
+      } finally {
+        setIsAppReady(true); // ✅ Now app is ready
+      }
     };
 
     loadData();
@@ -157,6 +168,7 @@ function App() {
             onPlaceSelected={handlePlaceSelected}
             searchCount={searchCount}
             handlePurchase={handlePurchase}
+            isAppReady={isAppReady}
           />
         )}
         <LeafletMapComponent
