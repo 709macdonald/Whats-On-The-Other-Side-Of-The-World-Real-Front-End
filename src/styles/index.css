@@ -109,7 +109,9 @@ body {
     padding: 15px;
   }
 
-  .search-input,
+  .search-input {
+    width: 90%;
+  }
   .search-button {
     width: 100%;
   }
