@@ -41,7 +41,6 @@ body {
   .search-input {
     font-size: 14px;
     padding: 10px 12px;
-    margin: 0 15px;
   }
 
   .search-button {
@@ -113,7 +112,6 @@ body {
   .search-input,
   .search-button {
     width: 100%;
-    margin: 0 15px;
   }
 
   /* Footer */

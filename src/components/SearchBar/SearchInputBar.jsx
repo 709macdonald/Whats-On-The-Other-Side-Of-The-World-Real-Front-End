@@ -1,7 +1,11 @@
-function SearchInputBar({ onSearch, onInputChange, inputValue, onFocus }) {
+export default function SearchInputBar({
+  onSearch,
+  onInputChange,
+  inputValue,
+  onFocus,
+}) {
   const handleChange = (e) => {
-    const val = e.target.value;
-    onInputChange?.(val);
+    onInputChange?.(e.target.value);
   };
 
   const handleKeyDown = (e) => {
@@ -15,22 +19,23 @@ function SearchInputBar({ onSearch, onInputChange, inputValue, onFocus }) {
   };
 
   return (
-    <div className="search-container">
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        onFocus={onFocus}
-        placeholder="Search for a location..."
-        className="search-input"
-        autoComplete="off"
-      />
-      <button className="search-button" onClick={handleClick}>
-        Search
-      </button>
+    <div className="search-container-wrapper">
+      {" "}
+      <div className="search-container">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          onFocus={onFocus}
+          placeholder="Search for a location..."
+          className="search-input"
+          autoComplete="off"
+        />
+        <button className="search-button" onClick={handleClick}>
+          Search
+        </button>
+      </div>
     </div>
   );
 }
-
-export default SearchInputBar;

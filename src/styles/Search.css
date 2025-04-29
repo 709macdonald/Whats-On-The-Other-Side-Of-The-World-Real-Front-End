@@ -1,3 +1,15 @@
+.search-container-wrapper {
+  width: 100%;
+  max-width: 500px;
+  padding: 0 20px; /* <-- THIS is real side padding */
+  box-sizing: border-box; /* very important to include padding inside width */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
 .loading-message {
   text-align: center;
   font-size: 1.2rem;
@@ -55,7 +67,6 @@
 .search-container {
   display: flex;
   gap: 10px;
-  max-width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
