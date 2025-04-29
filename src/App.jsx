@@ -81,9 +81,9 @@ function App() {
 
   const handlePurchase = (searchesPurchased) => {
     if (searchesPurchased === 5) {
-      window.location.href = "https://buy.stripe.com/test_7sI3fbeh45DyesMfYY";
+      window.location.href = "https://buy.stripe.com/aEUbLYcjHezAbra5kl";
     } else if (searchesPurchased === 15) {
-      window.location.href = "https://buy.stripe.com/test_3cs02Z0qed6070kbIJ";
+      window.location.href = "https://buy.stripe.com/14k7vI6Zn2QS0Mw8ww";
     }
   };
 
@@ -152,12 +152,13 @@ function App() {
     <>
       <Header />
       <div className="mainScreen">
-        <SearchWrapper
-          onPlaceSelected={handlePlaceSelected}
-          searchCount={searchCount}
-          handlePurchase={handlePurchase}
-        />
-
+        {showSearch && (
+          <SearchWrapper
+            onPlaceSelected={handlePlaceSelected}
+            searchCount={searchCount}
+            handlePurchase={handlePurchase}
+          />
+        )}
         <LeafletMapComponent
           center={searchLocation}
           viewTarget={viewTarget}
@@ -165,6 +166,7 @@ function App() {
           nearestMcDonalds={nearestMcDonalds}
         />
       </div>
+
       <Footer
         onReset={handleReset}
         onViewOriginal={handleViewOriginal}
