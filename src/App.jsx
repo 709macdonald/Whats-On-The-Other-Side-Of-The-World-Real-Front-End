@@ -51,14 +51,20 @@ function App() {
       console.log("Loaded McDonald's data:", data.length, "locations");
       setMcDonaldsData(data);
 
-      // 🔥 WARM-UP SERVER
+      // 🔥 Better warm-up
       try {
-        await getSuggestions("test"); // Send fake search
-        console.log("Server warmed up");
+        const warmResults = await getSuggestions("Toronto");
+        if (warmResults && warmResults.length > 0) {
+          console.log("✅ Server warmed up with real results");
+          setIsAppReady(true);
+        } else {
+          console.warn("⚠️ Empty warm-up response. Waiting 2 more seconds...");
+          setTimeout(() => setIsAppReady(true), 2000); // fallback
+        }
       } catch (error) {
-        console.error("Server warm-up failed:", error);
-      } finally {
-        setIsAppReady(true); // ✅ Now app is ready
+        console.error("❌ Server warm-up failed:", error);
+        // Still try to proceed after delay
+        setTimeout(() => setIsAppReady(true), 3000);
       }
     };
 
